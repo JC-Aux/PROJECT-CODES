@@ -1,0 +1,1279 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f3f5;
+    color: #222;
+}
+
+.app {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+}
+
+
+/* =========================================
+   SETTINGS
+========================================= */
+
+.settings {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #222;
+    color: white;
+}
+
+button:hover {
+    background: #444;
+}
+
+
+/* =========================================
+   PREVIEW
+========================================= */
+
+.preview-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.preview-header h2 {
+    margin: 0;
+}
+
+.print-button {
+    width: auto;
+    padding: 10px 20px;
+}
+
+.empty-message {
+    text-align: center;
+    color: #777;
+}
+
+
+/* =========================================
+   PRINT PAGE
+========================================= */
+
+.print-page {
+    position: relative;
+
+    margin: 0 auto;
+
+    background: white;
+
+    color: black;
+
+    overflow: hidden;
+
+    display: grid;
+}
+
+
+/* PAPER SIZE */
+
+.print-page.letter {
+    width: 8.5in;
+    height: 11in;
+}
+
+.print-page.long {
+    width: 8.5in;
+    height: 13in;
+}
+
+
+/* =========================================
+   TEMPLATE LAYOUTS
+========================================= */
+
+
+/* ONE */
+
+.print-page.templates-1 {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+
+/* TWO — SIDE BY SIDE */
+
+.print-page.templates-2 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+
+/* FOUR — 2 x 2 */
+
+.print-page.templates-4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+
+/* =========================================
+   CUT GUIDE
+========================================= */
+
+.print-page.templates-2::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0.2in;
+
+    bottom: 0.2in;
+
+    left: 50%;
+
+    border-left: 1px dashed #777;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================
+   INDIVIDUAL TEMPLATE
+========================================= */
+
+.omr-template {
+
+    position: relative;
+
+    padding: 0.28in;
+
+    overflow: hidden;
+
+    border: 1px dashed #aaa;
+
+}
+
+
+/* =========================================
+   OMR REGISTRATION MARKS
+========================================= */
+
+.registration-mark {
+
+    position: absolute;
+
+    width: 0.16in;
+
+    height: 0.16in;
+
+    background: #000;
+
+    z-index: 10;
+
+}
+
+
+/* TOP LEFT */
+
+.mark-top-left {
+
+    top: 0.12in;
+
+    left: 0.12in;
+
+}
+
+
+/* TOP RIGHT */
+
+.mark-top-right {
+
+    top: 0.12in;
+
+    right: 0.12in;
+
+}
+
+
+/* BOTTOM LEFT */
+
+.mark-bottom-left {
+
+    bottom: 0.12in;
+
+    left: 0.12in;
+
+}
+
+
+/* BOTTOM RIGHT */
+
+.mark-bottom-right {
+
+    bottom: 0.12in;
+
+    right: 0.12in;
+
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.omr-header {
+
+    text-align: center;
+
+    margin-bottom: 0.06in;
+
+}
+
+.omr-header h2 {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    letter-spacing: 0.4px;
+
+}
+
+.omr-header p {
+
+    margin: 2px 0 0;
+
+    font-size: 7px;
+
+}
+
+
+/* =========================================
+   STUDENT INFO
+========================================= */
+
+.student-info {
+
+    margin-bottom: 0.06in;
+
+    font-size: 7px;
+
+}
+
+.info-row {
+
+    display: flex;
+
+    gap: 0.08in;
+
+    margin-bottom: 4px;
+
+}
+
+.info-field {
+
+    flex: 1;
+
+    border-bottom: 1px solid black;
+
+    padding-bottom: 2px;
+
+}
+
+
+/* =========================================
+   QUESTION COLUMNS
+========================================= */
+
+.question-columns {
+
+    display: grid;
+
+    width: 100%;
+
+    column-gap: 0.08in;
+
+}
+
+
+.question-column {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================
+   QUESTION ROW
+========================================= */
+
+.question-row {
+
+    display: flex;
+
+    align-items: center;
+
+    height: 0.205in;
+
+    font-size: 7px;
+
+    white-space: nowrap;
+
+}
+
+
+.question-number {
+
+    width: 0.25in;
+
+    font-weight: bold;
+
+    flex-shrink: 0;
+
+}
+
+/* =========================================
+   OMR ANSWER BUBBLE
+========================================= */
+
+.answer-bubble {
+
+    position: relative;
+
+    width: 0.17in;
+
+    height: 0.17in;
+
+    min-width: 0.17in;
+
+    min-height: 0.17in;
+
+    border: 1.2px solid #000;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-right: 0.025in;
+
+    font-size: 5px;
+
+    font-weight: bold;
+
+    background: white;
+
+    flex-shrink: 0;
+
+}
+
+
+.answer-bubble span {
+
+    transform: translateY(-0.3px);
+
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.omr-footer {
+
+    position: absolute;
+
+    bottom: 0.16in;
+
+    left: 0.28in;
+
+    right: 0.28in;
+
+    text-align: center;
+
+    font-size: 5.5px;
+
+}
+
+/* =========================================
+   ANSWER KEY
+========================================= */
+
+.answer-key-section {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+
+.key-description {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.answer-key-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(180px, 1fr)
+        );
+
+    gap: 8px;
+
+}
+
+
+.key-question {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: #fafafa;
+
+}
+
+
+.key-question-number {
+
+    width: 35px;
+
+    font-weight: bold;
+
+}
+
+
+.key-answer {
+
+    flex: 1;
+
+    padding: 7px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 4px;
+
+    background: white;
+
+}
+
+
+.key-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+.key-actions button {
+
+    flex: 1;
+
+}
+
+
+.secondary-button {
+
+    background: #777;
+
+}
+
+
+.secondary-button:hover {
+
+    background: #555;
+
+}
+/* =========================================
+   ANSWER PATTERN
+========================================= */
+
+.pattern-section {
+
+    margin-bottom: 25px;
+
+    padding: 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    background: #fafafa;
+
+}
+
+
+.pattern-section label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+}
+
+
+#answerPattern {
+
+    width: 100%;
+
+    resize: vertical;
+
+    padding: 12px;
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: white;
+
+}
+
+
+.pattern-info {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 8px;
+
+    font-size: 13px;
+
+    color: #666;
+
+}
+
+
+#patternStatus {
+
+    font-weight: bold;
+
+}
+
+
+.pattern-button {
+
+    margin-top: 12px;
+
+    background: #333;
+
+}
+
+
+.pattern-button:hover {
+
+    background: #111;
+
+}
+
+
+/* =========================================
+   ANSWER KEY
+========================================= */
+
+.answer-key-section {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+
+.key-description {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.answer-key-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(180px, 1fr)
+        );
+
+    gap: 8px;
+
+}
+
+
+.key-question {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: #fafafa;
+
+}
+
+
+.key-question-number {
+
+    width: 35px;
+
+    font-weight: bold;
+
+}
+
+
+.key-answer {
+
+    flex: 1;
+
+    padding: 7px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 4px;
+
+    background: white;
+
+}
+
+
+.key-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+.key-actions button {
+
+    flex: 1;
+
+}
+
+
+.secondary-button {
+
+    background: #777;
+
+}
+
+
+.secondary-button:hover {
+
+    background: #555;
+
+}
+
+/* =========================================
+   OMR INSTRUCTIONS
+========================================= */
+
+.omr-instruction {
+
+    text-align: center;
+
+    font-size: 5px;
+
+    font-weight: bold;
+
+    margin-bottom: 0.04in;
+
+    letter-spacing: 0.3px;
+
+}
+
+/* =========================================
+   SCANNER
+========================================= */
+
+.scanner-section {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    margin-bottom: 30px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+
+.scanner-description {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.camera-container {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    background: #111;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+}
+
+
+#cameraPreview {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+}
+
+
+.camera-guide {
+
+    position: absolute;
+
+    inset: 8% 8%;
+
+    border: 2px dashed rgba(
+        255,
+        255,
+        255,
+        0.7
+    );
+
+    pointer-events: none;
+
+}
+
+
+.guide-corner {
+
+    position: absolute;
+
+    width: 25px;
+
+    height: 25px;
+
+    border-color: white;
+
+    border-style: solid;
+
+}
+
+
+/* TOP LEFT */
+
+.guide-corner.top-left {
+
+    top: -2px;
+
+    left: -2px;
+
+    border-width:
+        4px
+        0
+        0
+        4px;
+
+}
+
+
+/* TOP RIGHT */
+
+.guide-corner.top-right {
+
+    top: -2px;
+
+    right: -2px;
+
+    border-width:
+        4px
+        4px
+        0
+        0;
+
+}
+
+
+/* BOTTOM LEFT */
+
+.guide-corner.bottom-left {
+
+    bottom: -2px;
+
+    left: -2px;
+
+    border-width:
+        0
+        0
+        4px
+        4px;
+
+}
+
+
+/* BOTTOM RIGHT */
+
+.guide-corner.bottom-right {
+
+    bottom: -2px;
+
+    right: -2px;
+
+    border-width:
+        0
+        4px
+        4px
+        0;
+
+}
+
+
+.scanner-controls {
+
+    display: flex;
+
+    gap: 10px;
+
+    max-width: 700px;
+
+    margin:
+        15px
+        auto
+        0;
+
+}
+
+
+.scanner-controls button {
+
+    flex: 1;
+
+}
+
+
+.scan-status {
+
+    max-width: 700px;
+
+    margin:
+        12px
+        auto
+        0;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    color: #666;
+
+}
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print {
+
+    body {
+
+        background: white;
+
+        margin: 0;
+
+    }
+
+
+    .app {
+
+        padding: 0;
+
+        margin: 0;
+
+        max-width: none;
+
+    }
+
+
+    header,
+    .settings,
+    .preview-header {
+
+        display: none;
+
+    }
+
+
+    .preview-section {
+
+        padding: 0;
+
+        margin: 0;
+
+        background: white;
+
+    }
+
+
+    .print-page {
+
+        margin: 0;
+
+        border: none;
+
+        box-shadow: none;
+
+        page-break-after: always;
+
+    }
+
+
+    .omr-template {
+
+        border: none;
+
+    }
+
+
+    @page {
+
+        margin: 0;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE PREVIEW
+========================================= */
+
+@media (max-width: 700px) {
+
+    .app {
+
+        padding: 15px;
+
+    }
+
+    .preview-section {
+
+        overflow-x: auto;
+
+    }
+
+}
+
+/* =========================================
+   KEY NAME
+========================================= */
+
+.key-name-section {
+
+    margin-bottom: 20px;
+
+}
+
+.key-name-section label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+}
+
+#keyName {
+
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 16px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+}
+
+
+/* =========================================
+   SAVED KEYS
+========================================= */
+
+.saved-keys {
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #ddd;
+
+}
+
+.saved-keys h3 {
+
+    margin-top: 0;
+
+}
+
+
+.saved-key {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 12px;
+
+    margin-bottom: 8px;
+
+    background: #f7f7f7;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+}
+
+
+.saved-key-info {
+
+    flex: 1;
+
+}
+
+
+.saved-key-name {
+
+    font-weight: bold;
+
+    margin-bottom: 4px;
+
+}
+
+
+.saved-key-details {
+
+    font-size: 12px;
+
+    color: #666;
+
+}
+
+
+.saved-key-actions {
+
+    display: flex;
+
+    gap: 6px;
+
+}
+
+
+.saved-key-actions button {
+
+    width: auto;
+
+    padding: 8px 12px;
+
+    font-size: 13px;
+
+}
+
+
+.load-key-button {
+
+    background: #333;
+
+}
+
+
+.delete-key-button {
+
+    background: #a33;
+
+}
+
+/* =========================================
+   FORM IDENTIFIER
+========================================= */
+
+.form-id {
+
+    position: absolute;
+
+    top: 0.12in;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-family: monospace;
+
+    font-size: 5px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+
+}
+
+/* =========================================
+   OMR INSTRUCTIONS
+========================================= */
+
+.omr-instruction {
+
+    text-align: center;
+
+    font-size: 5px;
+
+    font-weight: bold;
+
+    margin-bottom: 0.04in;
+
+    letter-spacing: 0.3px;
+
+}

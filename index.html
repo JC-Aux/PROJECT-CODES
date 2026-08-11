@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OMR Answer Sheet Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <header>
+            <h1>OMR Answer Sheet</h1>
+            <p>Multiple Choice Answer Sheet Generator</p>
+        </header>
+
+
+        <main>
+
+            <section class="settings">
+
+                <h2>Answer Sheet Settings</h2>
+
+
+                <div class="setting-group">
+
+                    <label for="questionCount">
+                        Number of Questions
+                    </label>
+
+                    <select id="questionCount">
+                        <option value="10">10 Questions</option>
+                        <option value="20">20 Questions</option>
+                        <option value="30">30 Questions</option>
+                        <option value="40">40 Questions</option>
+                        <option value="50">50 Questions</option>
+                    </select>
+
+                </div>
+
+
+                <div class="setting-group">
+
+                    <label for="choiceCount">
+                        Number of Choices
+                    </label>
+
+                    <select id="choiceCount">
+                        <option value="2">A–B</option>
+                        <option value="3">A–C</option>
+                        <option value="4" selected>A–D</option>
+                        <option value="5">A–E</option>
+                        <option value="6">A–F</option>
+                    </select>
+
+                </div>
+
+
+                <div class="setting-group">
+
+                    <label for="paperSize">
+                        Paper Size
+                    </label>
+
+                    <select id="paperSize">
+                        <option value="letter">
+                            Letter — 8.5 × 11 in
+                        </option>
+
+                        <option value="long">
+                            Long — 8.5 × 13 in
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="setting-group">
+
+                    <label for="templatesPerPage">
+                        Templates per Paper
+                    </label>
+
+                    <select id="templatesPerPage">
+
+                        <option value="1">
+                            1 Template
+                        </option>
+
+                        <option value="2">
+                            2 Templates — Vertical
+                        </option>
+
+                        <option value="4">
+                            4 Templates — 2 × 2
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button id="generateButton">
+                    Generate Answer Sheet
+                </button>
+
+            </section>
+
+               <section class="answer-key-section">
+
+    <h2>Answer Key</h2>
+
+    <p class="key-description">
+        Create and save answer keys for your tests.
+    </p>
+
+    <div class="key-name-section">
+
+        <label for="keyName">
+            Test Name
+        </label>
+
+        <input
+            type="text"
+            id="keyName"
+            placeholder="Example: Midterm Examination"
+        >
+
+    </div>
+
+
+    <div class="pattern-section">
+
+        <label for="answerPattern">
+            Answer Pattern
+        </label>
+
+        <textarea
+            id="answerPattern"
+            placeholder="Example: ACBDBACDABCD..."
+            rows="4"
+        ></textarea>
+
+
+        <div class="pattern-info">
+
+            <span id="patternCount">
+                0 answers entered
+            </span>
+
+            <span id="patternStatus"></span>
+
+        </div>
+
+
+        <button
+            id="applyPatternButton"
+            class="pattern-button"
+        >
+            Apply Pattern
+        </button>
+
+    </div>
+
+
+    <div id="answerKey">
+
+        <p class="empty-message">
+            Generate an answer sheet first.
+        </p>
+
+    </div>
+
+
+    <div class="key-actions">
+
+        <button id="saveKeyButton">
+            Save Answer Key
+        </button>
+
+
+        <button
+            id="clearKeyButton"
+            class="secondary-button"
+        >
+            Clear Current Key
+        </button>
+
+    </div>
+
+
+    <div class="saved-keys">
+
+        <h3>Saved Answer Keys</h3>
+
+        <div id="savedKeysList">
+
+            <p class="empty-message">
+                No saved answer keys.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+    <!-- ANSWER PATTERN -->
+
+    <div class="pattern-section">
+
+        <label for="answerPattern">
+            Answer Pattern
+        </label>
+
+        <textarea
+            id="answerPattern"
+            placeholder="Example: ACBDBACDABCD..."
+            rows="4"
+        ></textarea>
+
+
+        <div class="pattern-info">
+
+            <span id="patternCount">
+                0 answers entered
+            </span>
+
+            <span id="patternStatus"></span>
+
+        </div>
+
+
+        <button
+            id="applyPatternButton"
+            class="pattern-button"
+        >
+            Apply Pattern
+        </button>
+
+    </div>
+
+
+    <!-- ANSWER KEY -->
+
+    <div id="answerKey">
+
+        <p class="empty-message">
+            Generate an answer sheet first.
+        </p>
+
+    </div>
+
+
+    <div class="key-actions">
+
+        <button id="saveKeyButton">
+            Save Answer Key
+        </button>
+
+
+        <button
+            id="clearKeyButton"
+            class="secondary-button"
+        >
+            Clear Answer Key
+        </button>
+
+    </div>
+
+</section>
+<section class="scanner-section">
+
+    <h2>Scan Answer Sheet</h2>
+
+    <p class="scanner-description">
+        Place the answer sheet inside the camera view.
+        Align all four registration marks before scanning.
+    </p>
+
+
+    <div class="camera-container">
+
+        <video
+            id="cameraPreview"
+            autoplay
+            playsinline
+        ></video>
+
+
+        <div class="camera-guide">
+
+            <div class="guide-corner top-left"></div>
+
+            <div class="guide-corner top-right"></div>
+
+            <div class="guide-corner bottom-left"></div>
+
+            <div class="guide-corner bottom-right"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="scanner-controls">
+
+        <button id="startCameraButton">
+            Start Camera
+        </button>
+
+
+        <button
+            id="captureButton"
+            disabled
+        >
+            Capture
+        </button>
+
+    </div>
+
+
+    <canvas
+        id="scanCanvas"
+        style="display: none;"
+    ></canvas>
+
+
+    <div
+        id="scanStatus"
+        class="scan-status"
+    >
+        Camera not started.
+    </div>
+
+</section>
+            <section class="preview-section">
+
+                <div class="preview-header">
+
+                    <h2>Preview</h2>
+
+                    <button
+                        id="printButton"
+                        class="print-button"
+                    >
+                        Print
+                    </button>
+
+                </div>
+
+
+                <div id="answerSheet">
+
+                    <p class="empty-message">
+                        Configure the answer sheet and click
+                        "Generate Answer Sheet".
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
