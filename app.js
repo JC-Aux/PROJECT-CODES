@@ -75,6 +75,17 @@ STARTUP
 ====================================================
 */
 
+document
+    .getElementById(
+        "templatesPerPage"
+    )
+    .addEventListener(
+        "change",
+        updateChoiceOptions
+    );
+
+updateChoiceOptions();
+
 renderSavedKeys();
 
 
@@ -84,26 +95,104 @@ GENERATE ANSWER SHEET
 ====================================================
 */
 
+let currentLayout = null;
+
+
+function readSheetSettings() {
+
+    return {
+
+        questionCount:
+            parseInt(
+                document.getElementById(
+                    "questionCount"
+                ).value
+            ),
+
+        choiceCount:
+            parseInt(
+                document.getElementById(
+                    "choiceCount"
+                ).value
+            ),
+
+        paperSize:
+            document.getElementById(
+                "paperSize"
+            ).value,
+
+        templatesPerPage:
+            parseInt(
+                document.getElementById(
+                    "templatesPerPage"
+                ).value
+            )
+
+    };
+}
+
+
 function generateAnswerSheet() {
 
-    const questionCount =
-        parseInt(
-            document.getElementById(
-                "questionCount"
-            ).value
-        );
+    const settings =
+        readSheetSettings();
 
-    const choiceCount =
-        parseInt(
-            document.getElementById(
-                "choiceCount"
-            ).value
-        );
-
-    const paperSize =
+    const answerSheet =
         document.getElementById(
-            "paperSize"
-        ).value;
+            "answerSheet"
+        );
+
+
+    const layout =
+        OMRLayout.compute(
+            settings
+        );
+
+
+    if (!layout.ok) {
+
+        currentLayout = null;
+
+        answerSheet.innerHTML = `
+            <p class="sheet-error">
+                ${escapeHTML(layout.error)}
+            </p>
+        `;
+
+        return;
+    }
+
+
+    currentLayout = layout;
+
+
+    generateAnswerKey(
+        settings.questionCount,
+        settings.choiceCount
+    );
+
+
+    setPrintPageSize(
+        settings.paperSize
+    );
+
+
+    answerSheet.innerHTML =
+        renderSheetSVG(
+            layout
+        );
+
+}
+
+
+/*
+====================================================
+CHOICE LIMITS
+4 templates per page supports A–D only.
+====================================================
+*/
+
+function updateChoiceOptions() {
 
     const templatesPerPage =
         parseInt(
@@ -112,381 +201,267 @@ function generateAnswerSheet() {
             ).value
         );
 
-    const answerSheet =
+    const choiceSelect =
         document.getElementById(
-            "answerSheet"
+            "choiceCount"
         );
 
-
-    generateAnswerKey(
-        questionCount,
-        choiceCount
-    );
-
-
-    const questionColumns =
-        determineQuestionColumns(
-            questionCount,
-            choiceCount,
+    const max =
+        OMRLayout.maxChoices(
             templatesPerPage
         );
 
 
-    let templatesHTML = "";
+    [...choiceSelect.options].forEach(
+        option => {
+
+            option.disabled =
+                parseInt(option.value) > max;
+
+        }
+    );
 
 
-    for (
-        let templateNumber = 1;
-        templateNumber <= templatesPerPage;
-        templateNumber++
+    if (
+        parseInt(choiceSelect.value) > max
     ) {
 
-        templatesHTML +=
-            createTemplate(
-                questionCount,
-                choiceCount,
-                questionColumns,
-                templateNumber
-            );
+        choiceSelect.value =
+            String(max);
 
     }
-
-
-    answerSheet.innerHTML = `
-
-        <div class="
-            print-page
-            ${paperSize}
-            templates-${templatesPerPage}
-        ">
-
-            ${templatesHTML}
-
-        </div>
-
-    `;
-
 }
 
 
 /*
 ====================================================
-COLUMN CALCULATION
+SVG RENDERER
+Draws the sheet from the numbers in layout.js.
+Units are millimetres, so the sheet prints at its
+true size when printed at 100%.
 ====================================================
 */
 
-function determineQuestionColumns(
-    questionCount,
-    choiceCount,
-    templatesPerPage
-) {
+function renderSheetSVG(layout) {
 
-    if (templatesPerPage === 1) {
+    const paper = layout.paper;
 
-        if (questionCount <= 20) {
-            return 1;
-        }
-
-        return 2;
-    }
-
-
-    if (templatesPerPage === 2) {
-
-        if (questionCount <= 15) {
-            return 1;
-        }
-
-        return 2;
-    }
-
-
-    if (templatesPerPage === 4) {
-
-        if (questionCount <= 10) {
-            return 1;
-        }
-
-        if (questionCount <= 30) {
-            return 2;
-        }
-
-        if (choiceCount === 6) {
-            return 2;
-        }
-
-        return 3;
-    }
-
-
-    return 1;
-}
-
-
-/*
-====================================================
-CREATE TEMPLATE
-====================================================
-*/
-
-function createTemplate(
-    questionCount,
-    choiceCount,
-    questionColumns,
-    templateNumber
-) {
-
-    const choices =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
-    const columns =
-        createQuestionColumns(
-            questionCount,
-            choiceCount,
-            questionColumns
+    const templateSVG =
+        renderTemplateSVG(
+            layout
         );
 
 
-    let columnsHTML = "";
-
-
-    for (
-        let i = 0;
-        i < columns.length;
-        i++
-    ) {
-
-        columnsHTML += `
-
-            <div class="question-column">
-
-                ${columns[i]}
-
-            </div>
-
-        `;
-    }
-
-
-    return `
-
-        <div class="omr-template">
-
-            <div class="
-                registration-mark
-                mark-top-left
-            "></div>
-
-            <div class="
-                registration-mark
-                mark-top-right
-            "></div>
-
-            <div class="
-                registration-mark
-                mark-bottom-left
-            "></div>
-
-            <div class="
-                registration-mark
-                mark-bottom-right
-            "></div>
-
-
-            <div class="form-id">
-                OMR-${questionCount}-${choiceCount}-${questionColumns}
-            </div>
-
-            <div class="omr-header">
-
-                <h2>
-                    MULTIPLE CHOICE ANSWER SHEET
-                </h2>
-
-                <p>
-                    Shade one answer for each question.
-                </p>
-
-            </div>
-
-
-            <div class="student-info">
-
-                <div class="info-row">
-
-                    <div class="info-field">
-                        Name:
-                    </div>
-
-                    <div class="info-field">
-                        Section:
-                    </div>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <div class="info-field">
-                        Subject:
-                    </div>
-
-                    <div class="info-field">
-                        Date:
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="omr-instruction">
-                 SHADE COMPLETELY • USE PENCIL OR DARK PEN
-            </div>
-
-            <div class="omr-instruction">
-                SHADE COMPLETELY • EXAMPLE: A = ● • SHADE ONLY ONE ANSWER
-            </div>
-
-            <div
-                class="question-columns"
-                style="
-                    grid-template-columns:
-                    repeat(
-                        ${questionColumns},
-                        1fr
-                    );
-                "
-            >
-
-                ${columnsHTML}
-
-            </div>
-
-
-            <div class="omr-footer">
-
-                OMR FORM •
-                ${questionCount} ITEMS •
-                ${choices[choiceCount - 1]}
-
-            </div>
-
-        </div>
-
+    let svg = `
+        <svg
+            class="sheet-svg"
+            xmlns="http://www.w3.org/2000/svg"
+            width="${paper.w}mm"
+            height="${paper.h}mm"
+            viewBox="0 0 ${paper.w} ${paper.h}"
+            font-family="Arial, Helvetica, sans-serif"
+        >
+            <rect
+                x="0" y="0"
+                width="${paper.w}"
+                height="${paper.h}"
+                fill="#fff"
+            />
     `;
-}
 
 
-/*
-====================================================
-CREATE QUESTION COLUMNS
-====================================================
-*/
+    layout.templates.forEach(
+        position => {
 
-function createQuestionColumns(
-    questionCount,
-    choiceCount,
-    columnCount
-) {
-
-    const choices =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
-    const questionsPerColumn =
-        Math.ceil(
-            questionCount /
-            columnCount
-        );
-
-
-    const columns = [];
-
-
-    for (
-        let column = 0;
-        column < columnCount;
-        column++
-    ) {
-
-        let columnHTML = "";
-
-
-        const startQuestion =
-            column *
-            questionsPerColumn +
-            1;
-
-
-        const endQuestion =
-            Math.min(
-                startQuestion +
-                questionsPerColumn -
-                1,
-                questionCount
-            );
-
-
-        for (
-            let question =
-                startQuestion;
-
-            question <= endQuestion;
-
-            question++
-        ) {
-
-            let bubblesHTML = "";
-
-
-            for (
-                let choice = 0;
-                choice < choiceCount;
-                choice++
-            ) {
-
-                bubblesHTML += `
-
-                    <div
-                        class="answer-bubble"
-                        data-question="${question}"
-                        data-choice="${choices[choice]}"
-                    >
-
-                        <span>
-                            ${choices[choice]}
-                        </span>
-
-                    </div>
-
-                `;
-            }
-
-
-            columnHTML += `
-
-                <div class="question-row">
-
-                    <div class="question-number">
-                        ${question}.
-                    </div>
-
-                    ${bubblesHTML}
-
-                </div>
-
+            svg += `
+                <g transform="translate(${position.x} ${position.y})">
+                    ${templateSVG}
+                </g>
             `;
         }
+    );
 
 
-        columns.push(
-            columnHTML
-        );
-    }
+    layout.cutLines.forEach(
+        line => {
+
+            svg += `
+                <line
+                    x1="${line.x1}" y1="${line.y1}"
+                    x2="${line.x2}" y2="${line.y2}"
+                    stroke="#999"
+                    stroke-width="0.2"
+                    stroke-dasharray="2 1.5"
+                />
+            `;
+        }
+    );
 
 
-    return columns;
+    svg += `</svg>`;
+
+    return svg;
+}
+
+
+function renderTemplateSVG(layout) {
+
+    const g = layout.geometry;
+    const w = layout.template.w;
+    const h = layout.template.h;
+    const half = layout.markSize / 2;
+    const r = layout.bubbleDiameter / 2;
+
+    let s = "";
+
+
+    /* Registration marks */
+
+    Object.values(layout.marks).forEach(
+        mark => {
+
+            s += `
+                <rect
+                    x="${mark.x - half}"
+                    y="${mark.y - half}"
+                    width="${layout.markSize}"
+                    height="${layout.markSize}"
+                    fill="#000"
+                />
+            `;
+        }
+    );
+
+
+    /* Orientation dot */
+
+    const dot = layout.orientationDot;
+
+    s += `
+        <rect
+            x="${dot.x - dot.size / 2}"
+            y="${dot.y - dot.size / 2}"
+            width="${dot.size}"
+            height="${dot.size}"
+            fill="#000"
+        />
+    `;
+
+
+    /* Title */
+
+    s += `
+        <text
+            x="${w / 2}"
+            y="${g.titleY}"
+            font-size="${g.titleFont}"
+            font-weight="bold"
+            text-anchor="middle"
+        >MULTIPLE CHOICE ANSWER SHEET</text>
+    `;
+
+
+    /* Name / Section / Subject / Date fields */
+
+    const left = g.markInset + 1;
+    const right = w - g.markInset - 1;
+    const split = left + (right - left) * 0.64;
+
+    s += field("Name:", left, split - 3, g.field1Y, g.fieldFont);
+    s += field("Section:", split, right, g.field1Y, g.fieldFont);
+    s += field("Subject:", left, split - 3, g.field2Y, g.fieldFont);
+    s += field("Date:", split, right, g.field2Y, g.fieldFont);
+
+
+    /* Instruction */
+
+    s += `
+        <text
+            x="${w / 2}"
+            y="${g.instructionY}"
+            font-size="${g.instructionFont}"
+            text-anchor="middle"
+        >Shade ONE circle per item completely. Use a pencil or dark pen.</text>
+    `;
+
+
+    /* Question numbers */
+
+    layout.numbers.forEach(
+        number => {
+
+            s += `
+                <text
+                    x="${number.x}"
+                    y="${number.y + g.numberFont * 0.35}"
+                    font-size="${g.numberFont}"
+                    font-weight="bold"
+                    text-anchor="end"
+                >${number.question}.</text>
+            `;
+        }
+    );
+
+
+    /* Bubbles */
+
+    layout.bubbles.forEach(
+        bubble => {
+
+            s += `
+                <circle
+                    cx="${bubble.x}"
+                    cy="${bubble.y}"
+                    r="${r}"
+                    fill="#fff"
+                    stroke="#000"
+                    stroke-width="0.25"
+                />
+                <text
+                    x="${bubble.x}"
+                    y="${bubble.y + g.letterFont * 0.35}"
+                    font-size="${g.letterFont}"
+                    fill="#888"
+                    text-anchor="middle"
+                >${bubble.choice}</text>
+            `;
+        }
+    );
+
+
+    /* Footer: form ID between the bottom marks */
+
+    s += `
+        <text
+            x="${w / 2}"
+            y="${layout.marks.bl.y + g.footerFont * 0.35}"
+            font-size="${g.footerFont}"
+            text-anchor="middle"
+        >${layout.formId} • ${layout.config.questionCount} items • ${layout.choiceRange}</text>
+    `;
+
+
+    return s;
+}
+
+
+function field(label, x1, x2, y, fontSize) {
+
+    return `
+        <text
+            x="${x1}"
+            y="${y}"
+            font-size="${fontSize}"
+        >${label}</text>
+        <line
+            x1="${x1 + fontSize * 4.4}"
+            y1="${y + 0.6}"
+            x2="${x2}"
+            y2="${y + 0.6}"
+            stroke="#000"
+            stroke-width="0.15"
+        />
+    `;
 }
 
 
@@ -1408,11 +1383,68 @@ function escapeHTML(
 
 /*
 ====================================================
+PRINT PAGE SIZE
+Tells the browser the exact paper size so the
+sheet is not scaled or cut when printing.
+====================================================
+*/
+
+function setPrintPageSize(
+    paperSize
+) {
+
+    const sizes = {
+        letter: "8.5in 11in",
+        long: "8.5in 13in"
+    };
+
+
+    let styleTag =
+        document.getElementById(
+            "printPageSize"
+        );
+
+
+    if (!styleTag) {
+
+        styleTag =
+            document.createElement(
+                "style"
+            );
+
+        styleTag.id =
+            "printPageSize";
+
+        document.head.appendChild(
+            styleTag
+        );
+
+    }
+
+
+    styleTag.textContent =
+        `@page { size: ${sizes[paperSize]}; margin: 0; }`;
+
+}
+
+
+/*
+====================================================
 PRINT
 ====================================================
 */
 
 function printSheet() {
+
+    if (!currentLayout) {
+
+        alert(
+            "Generate an answer sheet first."
+        );
+
+        return;
+    }
+
 
     window.print();
 

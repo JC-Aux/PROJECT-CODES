@@ -110,351 +110,6 @@ button:hover {
 
 
 /* =========================================
-   PRINT PAGE
-========================================= */
-
-.print-page {
-    position: relative;
-
-    margin: 0 auto;
-
-    background: white;
-
-    color: black;
-
-    overflow: hidden;
-
-    display: grid;
-}
-
-
-/* PAPER SIZE */
-
-.print-page.letter {
-    width: 8.5in;
-    height: 11in;
-}
-
-.print-page.long {
-    width: 8.5in;
-    height: 13in;
-}
-
-
-/* =========================================
-   TEMPLATE LAYOUTS
-========================================= */
-
-
-/* ONE */
-
-.print-page.templates-1 {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-}
-
-
-/* TWO — SIDE BY SIDE */
-
-.print-page.templates-2 {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-}
-
-
-/* FOUR — 2 x 2 */
-
-.print-page.templates-4 {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-}
-
-
-/* =========================================
-   CUT GUIDE
-========================================= */
-
-.print-page.templates-2::after {
-
-    content: "";
-
-    position: absolute;
-
-    top: 0.2in;
-
-    bottom: 0.2in;
-
-    left: 50%;
-
-    border-left: 1px dashed #777;
-
-    pointer-events: none;
-
-}
-
-
-/* =========================================
-   INDIVIDUAL TEMPLATE
-========================================= */
-
-.omr-template {
-
-    position: relative;
-
-    padding: 0.28in;
-
-    overflow: hidden;
-
-    border: 1px dashed #aaa;
-
-}
-
-
-/* =========================================
-   OMR REGISTRATION MARKS
-========================================= */
-
-.registration-mark {
-
-    position: absolute;
-
-    width: 0.16in;
-
-    height: 0.16in;
-
-    background: #000;
-
-    z-index: 10;
-
-}
-
-
-/* TOP LEFT */
-
-.mark-top-left {
-
-    top: 0.12in;
-
-    left: 0.12in;
-
-}
-
-
-/* TOP RIGHT */
-
-.mark-top-right {
-
-    top: 0.12in;
-
-    right: 0.12in;
-
-}
-
-
-/* BOTTOM LEFT */
-
-.mark-bottom-left {
-
-    bottom: 0.12in;
-
-    left: 0.12in;
-
-}
-
-
-/* BOTTOM RIGHT */
-
-.mark-bottom-right {
-
-    bottom: 0.12in;
-
-    right: 0.12in;
-
-}
-
-/* =========================================
-   HEADER
-========================================= */
-
-.omr-header {
-
-    text-align: center;
-
-    margin-bottom: 0.06in;
-
-}
-
-.omr-header h2 {
-
-    margin: 0;
-
-    font-size: 13px;
-
-    letter-spacing: 0.4px;
-
-}
-
-.omr-header p {
-
-    margin: 2px 0 0;
-
-    font-size: 7px;
-
-}
-
-
-/* =========================================
-   STUDENT INFO
-========================================= */
-
-.student-info {
-
-    margin-bottom: 0.06in;
-
-    font-size: 7px;
-
-}
-
-.info-row {
-
-    display: flex;
-
-    gap: 0.08in;
-
-    margin-bottom: 4px;
-
-}
-
-.info-field {
-
-    flex: 1;
-
-    border-bottom: 1px solid black;
-
-    padding-bottom: 2px;
-
-}
-
-
-/* =========================================
-   QUESTION COLUMNS
-========================================= */
-
-.question-columns {
-
-    display: grid;
-
-    width: 100%;
-
-    column-gap: 0.08in;
-
-}
-
-
-.question-column {
-
-    min-width: 0;
-
-    overflow: hidden;
-
-}
-
-
-/* =========================================
-   QUESTION ROW
-========================================= */
-
-.question-row {
-
-    display: flex;
-
-    align-items: center;
-
-    height: 0.205in;
-
-    font-size: 7px;
-
-    white-space: nowrap;
-
-}
-
-
-.question-number {
-
-    width: 0.25in;
-
-    font-weight: bold;
-
-    flex-shrink: 0;
-
-}
-
-/* =========================================
-   OMR ANSWER BUBBLE
-========================================= */
-
-.answer-bubble {
-
-    position: relative;
-
-    width: 0.17in;
-
-    height: 0.17in;
-
-    min-width: 0.17in;
-
-    min-height: 0.17in;
-
-    border: 1.2px solid #000;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 0.025in;
-
-    font-size: 5px;
-
-    font-weight: bold;
-
-    background: white;
-
-    flex-shrink: 0;
-
-}
-
-
-.answer-bubble span {
-
-    transform: translateY(-0.3px);
-
-}
-
-/* =========================================
-   FOOTER
-========================================= */
-
-.omr-footer {
-
-    position: absolute;
-
-    bottom: 0.16in;
-
-    left: 0.28in;
-
-    right: 0.28in;
-
-    text-align: center;
-
-    font-size: 5.5px;
-
-}
-
-/* =========================================
    ANSWER KEY
 ========================================= */
 
@@ -666,143 +321,6 @@ button:hover {
 
 
 /* =========================================
-   ANSWER KEY
-========================================= */
-
-.answer-key-section {
-
-    background: white;
-
-    padding: 25px;
-
-    border-radius: 12px;
-
-    margin-bottom: 30px;
-
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-
-}
-
-
-.key-description {
-
-    color: #666;
-
-    font-size: 14px;
-
-    margin-bottom: 20px;
-
-}
-
-
-.answer-key-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(180px, 1fr)
-        );
-
-    gap: 8px;
-
-}
-
-
-.key-question {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 8px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 6px;
-
-    background: #fafafa;
-
-}
-
-
-.key-question-number {
-
-    width: 35px;
-
-    font-weight: bold;
-
-}
-
-
-.key-answer {
-
-    flex: 1;
-
-    padding: 7px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 4px;
-
-    background: white;
-
-}
-
-
-.key-actions {
-
-    display: flex;
-
-    gap: 10px;
-
-    margin-top: 20px;
-
-}
-
-
-.key-actions button {
-
-    flex: 1;
-
-}
-
-
-.secondary-button {
-
-    background: #777;
-
-}
-
-
-.secondary-button:hover {
-
-    background: #555;
-
-}
-
-/* =========================================
-   OMR INSTRUCTIONS
-========================================= */
-
-.omr-instruction {
-
-    text-align: center;
-
-    font-size: 5px;
-
-    font-weight: bold;
-
-    margin-bottom: 0.04in;
-
-    letter-spacing: 0.3px;
-
-}
-
-/* =========================================
    SCANNER
 ========================================= */
 
@@ -1005,81 +523,6 @@ button:hover {
 }
 
 /* =========================================
-   PRINT
-========================================= */
-
-@media print {
-
-    body {
-
-        background: white;
-
-        margin: 0;
-
-    }
-
-
-    .app {
-
-        padding: 0;
-
-        margin: 0;
-
-        max-width: none;
-
-    }
-
-
-    header,
-    .settings,
-    .preview-header {
-
-        display: none;
-
-    }
-
-
-    .preview-section {
-
-        padding: 0;
-
-        margin: 0;
-
-        background: white;
-
-    }
-
-
-    .print-page {
-
-        margin: 0;
-
-        border: none;
-
-        box-shadow: none;
-
-        page-break-after: always;
-
-    }
-
-
-    .omr-template {
-
-        border: none;
-
-    }
-
-
-    @page {
-
-        margin: 0;
-
-    }
-
-}
-
-
-/* =========================================
    MOBILE PREVIEW
 ========================================= */
 
@@ -1236,44 +679,83 @@ button:hover {
 
 }
 
+
 /* =========================================
-   FORM IDENTIFIER
+   ANSWER SHEET (SVG)
 ========================================= */
 
-.form-id {
-
-    position: absolute;
-
-    top: 0.12in;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    font-family: monospace;
-
-    font-size: 5px;
-
-    font-weight: bold;
-
-    letter-spacing: 0.5px;
-
+.sheet-svg {
+    display: block;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 0 1px #ccc;
 }
 
+.print-note {
+    margin: -8px 0 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.sheet-error {
+    padding: 16px;
+    border: 1px solid #e0b4b4;
+    border-radius: 6px;
+    background: #fff6f6;
+    color: #a33;
+    text-align: center;
+}
+
+select option:disabled {
+    color: #aaa;
+}
+
+
 /* =========================================
-   OMR INSTRUCTIONS
+   PRINT
 ========================================= */
 
-.omr-instruction {
+@media print {
 
-    text-align: center;
+    body {
+        background: white;
+        margin: 0;
+    }
 
-    font-size: 5px;
+    .app {
+        padding: 0;
+        margin: 0;
+        max-width: none;
+    }
 
-    font-weight: bold;
+    header,
+    .settings,
+    .answer-key-section,
+    .scanner-section,
+    .preview-header,
+    .print-note {
+        display: none;
+    }
 
-    margin-bottom: 0.04in;
+    .preview-section {
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+        background: white;
+        overflow: visible;
+    }
 
-    letter-spacing: 0.3px;
+    #answerSheet {
+        line-height: 0;
+    }
+
+    .sheet-svg {
+        margin: 0;
+        box-shadow: none;
+    }
+
+    @page {
+        margin: 0;
+    }
 
 }

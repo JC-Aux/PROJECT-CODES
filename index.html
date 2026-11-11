@@ -93,11 +93,11 @@
                         </option>
 
                         <option value="2">
-                            2 Templates — Vertical
+                            2 Templates — Side by side
                         </option>
 
                         <option value="4">
-                            4 Templates — 2 × 2
+                            4 Templates — 2 × 2 (A–D only)
                         </option>
 
                     </select>
@@ -209,72 +209,6 @@
     </div>
 
 </section>
-
-
-    <!-- ANSWER PATTERN -->
-
-    <div class="pattern-section">
-
-        <label for="answerPattern">
-            Answer Pattern
-        </label>
-
-        <textarea
-            id="answerPattern"
-            placeholder="Example: ACBDBACDABCD..."
-            rows="4"
-        ></textarea>
-
-
-        <div class="pattern-info">
-
-            <span id="patternCount">
-                0 answers entered
-            </span>
-
-            <span id="patternStatus"></span>
-
-        </div>
-
-
-        <button
-            id="applyPatternButton"
-            class="pattern-button"
-        >
-            Apply Pattern
-        </button>
-
-    </div>
-
-
-    <!-- ANSWER KEY -->
-
-    <div id="answerKey">
-
-        <p class="empty-message">
-            Generate an answer sheet first.
-        </p>
-
-    </div>
-
-
-    <div class="key-actions">
-
-        <button id="saveKeyButton">
-            Save Answer Key
-        </button>
-
-
-        <button
-            id="clearKeyButton"
-            class="secondary-button"
-        >
-            Clear Answer Key
-        </button>
-
-    </div>
-
-</section>
 <section class="scanner-section">
 
     <h2>Scan Answer Sheet</h2>
@@ -356,6 +290,12 @@
                 </div>
 
 
+                <p class="print-note">
+                    Print at 100% (Actual size). Do not use "Fit to page"
+                    or "Shrink to fit", or the scanner will misread the sheet.
+                </p>
+
+
                 <div id="answerSheet">
 
                     <p class="empty-message">
@@ -371,6 +311,8 @@
 
     </div>
 
+
+    <script src="layout.js"></script>
 
     <script src="app.js"></script>
 
